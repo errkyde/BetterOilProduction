@@ -1,0 +1,9 @@
+{
+  "name": "BetterOilProduction",
+  "version": "1.0.0",
+  "title": "Better Oil Production",
+  "author": "Flerkus",
+  "factorio_version": "2.0",
+  "description": "Adds improved oil pumps and new recipes to enhance oil production.",
+  "dependencies": ["base >= 2.0.0"]
+}
