@@ -1,5 +1,3 @@
-require("prototypes.entity.pipecovers")
-
 data:extend({
     -- Coal Refinery
     {
