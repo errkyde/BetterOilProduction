@@ -30,3 +30,19 @@ data:extend({
     stack_size = 20
   }
 })
+
+-- Space Age Items
+if mods["space-age"] then
+  data:extend({
+    {
+      type = "item",
+      name = "oil_rich-asteroid-chunk",
+      -- Reuse Space Age metallic chunk icon to avoid missing assets
+      icon = "__space-age__/graphics/icons/metallic-asteroid-chunk.png",
+      icon_size = 64,
+      subgroup = "space-material",
+      order = "e[oil-rich]-a[chunk]",
+      stack_size = 100
+    }
+  })
+end

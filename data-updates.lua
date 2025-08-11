@@ -21,21 +21,15 @@ local function add_resource_category(entity, new_category)
   table.insert(entity.resource_categories, new_category)
 end
 
+-- Space Age Integration
 if mods["space-age"] then
-  local pumpjacks = {
-    "better-pumpjack-mk2",
-    "better-pumpjack-mk3",
-    "better-pumpjack-eco"
-  }
+  -- prototypes are loaded in data.lua already
 
-  for _, name in pairs(pumpjacks) do
-    local entity = data.raw["mining-drill"][name]
-    if entity then
-      -- Space Age Fluids einfügen:
-      add_fluid_filter(entity, "molten-magma")
-      add_fluid_filter(entity, "plasma")
-      add_fluid_filter(entity, "biomass")
-      add_fluid_filter(entity, "ammonia")
-    end
+  -- Add to collector filter (only for chunks)
+  local collector = data.raw["asteroid-collector"] and data.raw["asteroid-collector"]["asteroid-collector"]
+  if collector then
+    collector.collection_filter = collector.collection_filter or {}
+    -- Use the chunk prototype name we created
+    table.insert(collector.collection_filter, "oil_rich-asteroid-chunk")
   end
 end

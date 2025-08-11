@@ -4,6 +4,6 @@
   "title": "Better Oil Production",
   "author": "Flerkus",
   "factorio_version": "2.0",
-  "description": "Adds improved oil pumps and new recipes to enhance oil production.",
-  "dependencies": ["base >= 2.0.0"]
+  "description": "Adds improved oil pumps, new recipes to enhance oil production, and oil-rich asteroids for Space Age mod.",
+  "dependencies": ["base >= 2.0.0", "space-age >= 1.0.0"]
 }
