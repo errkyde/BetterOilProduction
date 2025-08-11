@@ -20,16 +20,3 @@ local function add_resource_category(entity, new_category)
   end
   table.insert(entity.resource_categories, new_category)
 end
-
--- Space Age Integration
-if mods["space-age"] then
-  -- prototypes are loaded in data.lua already
-
-  -- Add to collector filter (only for chunks)
-  local collector = data.raw["asteroid-collector"] and data.raw["asteroid-collector"]["asteroid-collector"]
-  if collector then
-    collector.collection_filter = collector.collection_filter or {}
-    -- Use the chunk prototype name we created
-    table.insert(collector.collection_filter, "oil_rich-asteroid-chunk")
-  end
-end

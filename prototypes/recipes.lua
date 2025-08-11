@@ -46,27 +46,3 @@ data:extend({
     allow_as_intermediate = true,
   },
 })
-
--- Space Age Recipes
-if mods["space-age"] then
-  data:extend({
-    {
-      type = "recipe",
-      name = "asteroid-oil-processing",
-      category = "oil-processing",
-      enabled = false,
-      energy_required = 5,
-      ingredients = {
-        {type = "item", name = "oil_rich-asteroid-chunk", amount = 1},
-        {type = "fluid", name = "steam", amount = 50}
-      },
-      results = {
-        {type = "fluid", name = "crude-oil", amount = 500}
-      },
-      icon = "__BetterOilProduction__/graphics/icons/asteroid-oil-processing.png",
-      icon_size = 64,
-      subgroup = "fluid-recipes",
-      order = "a[oil-processing]-d[asteroid-oil]"
-    }
-  })
-end
