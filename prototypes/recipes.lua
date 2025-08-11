@@ -44,20 +44,5 @@ data:extend({
       {type = "item", name = "better-pumpjack-eco", amount = 1}
     },
     allow_as_intermediate = true,
-  },
-  {
-    type = "recipe",
-    name = "coal-refinery",
-    enabled = false,
-    energy_required = 20,
-    ingredients = {
-      {type = "item", name = "concrete", amount = 50},
-      {type = "item", name = "processing-unit", amount = 25},
-      {type = "item", name = "engine-unit", amount = 10}
-    },
-    results = {
-      {type = "item", name = "coal-refinery", amount = 1}
-    },
-    allow_as_intermediate = true,
   }
 })

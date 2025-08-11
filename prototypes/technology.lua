@@ -72,31 +72,5 @@ data:extend({
             time = 45
         },
         order = "d-c"
-    },
-    {
-        type = "technology",
-        name = "coal-refining",
-        icon = "__BetterOilProduction__/graphics/technology/coal-refining.png",
-        icon_size = 256,
-        prerequisites = {"advanced-pumpjacks-mk3", "space-science-pack"},
-        effects =
-        {
-            { type = "unlock-recipe", recipe = "coal-refinery" }
-        },
-        unit =
-        {
-            count = 500,
-            ingredients =
-            {
-                {"automation-science-pack", 1},
-                {"logistic-science-pack", 1},
-                {"chemical-science-pack", 1},
-                {"production-science-pack", 1},
-                {"utility-science-pack", 1},
-                {"space-science-pack", 1}
-            },
-            time = 45
-        },
-        order = "c-c-a"
     }
 })
