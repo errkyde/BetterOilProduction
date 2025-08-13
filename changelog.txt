@@ -1,9 +1,14 @@
 
 ---------------------------------------------------------------------------------------------------
-Version: 0.1.1
+Version: 0.1.3
 Date: 13.08.2025
   Features:
-    - maybe fixed dependencies again...
+    - Fixed wrong path Name in code. Game should actually start now with the mod.
+---------------------------------------------------------------------------------------------------
+Version: 0.1.2
+Date: 13.08.2025
+  Features:
+    - Maybe fixed dependencies again...
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.1
 Date: 13.08.2025
