@@ -2,7 +2,7 @@ data:extend({
     {
         type = "technology",
         name = "advanced-pumpjacks",
-        icon = "__BetterOilProduction__/graphics/technology/advanced-pumpjacks-mk2.png",
+        icon = "__Better-Oil-Production__/graphics/technology/advanced-pumpjacks-mk2.png",
         icon_size = 256,
         prerequisites = {"advanced-oil-processing"},
         effects =
@@ -26,7 +26,7 @@ data:extend({
     {
         type = "technology",
         name = "advanced-pumpjacks-mk3",
-        icon = "__BetterOilProduction__/graphics/technology/advanced-pumpjacks-mk3.png",
+        icon = "__Better-Oil-Production__/graphics/technology/advanced-pumpjacks-mk3.png",
         icon_size = 256,
         prerequisites = {"advanced-pumpjacks"},
         effects =
@@ -51,7 +51,7 @@ data:extend({
     {
         type = "technology",
         name = "eco-pumpjacks",
-        icon = "__BetterOilProduction__/graphics/technology/eco-pumpjacks.png",
+        icon = "__Better-Oil-Production__/graphics/technology/eco-pumpjacks.png",
         icon_size = 256,
         prerequisites = {"advanced-oil-processing", "electric-engine"},
         effects =

@@ -3,7 +3,7 @@ data:extend({
     {
         type = "mining-drill",
         name = "better-pumpjack-mk2",
-        icon = "__BetterOilProduction__/graphics/icons/better-pumpjack-mk2.png",
+        icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-mk2.png",
         icon_size = 64,
         flags = {"placeable-neutral", "player-creation"},
         minable = {mining_time = 1, result = "better-pumpjack-mk2"},
@@ -33,7 +33,7 @@ data:extend({
             }
         },
         radius_visualisation_picture = {
-            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk2/pumpjack-radius-visualization.png",
+            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk2/pumpjack-radius-visualization.png",
             width = 12,
             height = 12
         },
@@ -42,7 +42,7 @@ data:extend({
         base_picture = {
             sheets = {
                 {
-                    filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk2/pumpjack-base.png",
+                    filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk2/pumpjack-base.png",
                     priority = "extra-high",
                     width = 261,
                     height = 273,
@@ -50,7 +50,7 @@ data:extend({
                     scale = 0.5
                 },
                 {
-                    filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk2/pumpjack-base-shadow.png",
+                    filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk2/pumpjack-base-shadow.png",
                     width = 220,
                     height = 220,
                     scale = 0.5,
@@ -65,7 +65,7 @@ data:extend({
                     layers = {
                         {
                             priority = "high",
-                            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk2/pumpjack-horsehead.png",
+                            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk2/pumpjack-horsehead.png",
                             animation_speed = 0.5,
                             scale = 0.5,
                             line_length = 8,
@@ -76,7 +76,7 @@ data:extend({
                         },
                         {
                             priority = "high",
-                            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk2/pumpjack-horsehead-shadow.png",
+                            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk2/pumpjack-horsehead-shadow.png",
                             animation_speed = 0.5,
                             draw_as_shadow = true,
                             line_length = 8,
@@ -105,7 +105,7 @@ data:extend({
     {
         type = "mining-drill",
         name = "better-pumpjack-mk3",
-        icon = "__BetterOilProduction__/graphics/icons/better-pumpjack-mk3.png",
+        icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-mk3.png",
         icon_size = 64,
         flags = {"placeable-neutral", "player-creation"},
         minable = {mining_time = 1, result = "better-pumpjack-mk3"},
@@ -135,7 +135,7 @@ data:extend({
             }
         },
         radius_visualisation_picture = {
-            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk3/pumpjack-radius-visualization.png",
+            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk3/pumpjack-radius-visualization.png",
             width = 12,
             height = 12
         },
@@ -144,7 +144,7 @@ data:extend({
         base_picture = {
             sheets = {
                 {
-                    filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk3/pumpjack-base.png",
+                    filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk3/pumpjack-base.png",
                     priority = "extra-high",
                     width = 261,
                     height = 273,
@@ -152,7 +152,7 @@ data:extend({
                     scale = 0.5
                 },
                 {
-                    filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk3/pumpjack-base-shadow.png",
+                    filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk3/pumpjack-base-shadow.png",
                     width = 220,
                     height = 220,
                     scale = 0.5,
@@ -167,7 +167,7 @@ data:extend({
                     layers = {
                         {
                             priority = "high",
-                            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk3/pumpjack-horsehead.png",
+                            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk3/pumpjack-horsehead.png",
                             animation_speed = 0.5,
                             scale = 0.5,
                             line_length = 8,
@@ -178,7 +178,7 @@ data:extend({
                         },
                         {
                             priority = "high",
-                            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-mk3/pumpjack-horsehead-shadow.png",
+                            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-mk3/pumpjack-horsehead-shadow.png",
                             animation_speed = 0.5,
                             draw_as_shadow = true,
                             line_length = 8,
@@ -207,7 +207,7 @@ data:extend({
     {
         type = "mining-drill",
         name = "better-pumpjack-eco",
-        icon = "__BetterOilProduction__/graphics/icons/better-pumpjack-eco.png",
+        icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-eco.png",
         icon_size = 64,
         flags = {"placeable-neutral", "player-creation"},
         minable = {mining_time = 1, result = "better-pumpjack-eco"},
@@ -237,7 +237,7 @@ data:extend({
             }
         },
         radius_visualisation_picture = {
-            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-eco/pumpjack-radius-visualization.png",
+            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-eco/pumpjack-radius-visualization.png",
             width = 12,
             height = 12
         },
@@ -246,7 +246,7 @@ data:extend({
         base_picture = {
             sheets = {
                 {
-                    filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-eco/pumpjack-base.png",
+                    filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-eco/pumpjack-base.png",
                     priority = "extra-high",
                     width = 261,
                     height = 273,
@@ -254,7 +254,7 @@ data:extend({
                     scale = 0.5
                 },
                 {
-                    filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-eco/pumpjack-base-shadow.png",
+                    filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-eco/pumpjack-base-shadow.png",
                     width = 220,
                     height = 220,
                     scale = 0.5,
@@ -269,7 +269,7 @@ data:extend({
                     layers = {
                         {
                             priority = "high",
-                            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-eco/pumpjack-horsehead.png",
+                            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-eco/pumpjack-horsehead.png",
                             animation_speed = 0.5,
                             scale = 0.5,
                             line_length = 8,
@@ -280,7 +280,7 @@ data:extend({
                         },
                         {
                             priority = "high",
-                            filename = "__BetterOilProduction__/graphics/entity/better-pumpjack-eco/pumpjack-horsehead-shadow.png",
+                            filename = "__Better-Oil-Production__/graphics/entity/better-pumpjack-eco/pumpjack-horsehead-shadow.png",
                             animation_speed = 0.5,
                             draw_as_shadow = true,
                             line_length = 8,

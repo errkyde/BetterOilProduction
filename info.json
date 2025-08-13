@@ -1,15 +1,13 @@
 {
   "name": "Better-Oil-Production",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "title": "Better Oil Production",
   "author": "Flerkus",
   "factorio_version": "2.0",
   "description": "Adds improved oil pumps.\n\nThis mod enhances the oil production process by introducing new pump designs that increase efficiency and output.",
   "dependencies": [
-    "base >= 2.0.0",
-    "? Better-Energy-Production"
-  ],
-  "optional_dependencies": [
-    "space-age >= 1.0.0"
+    "base >= 2.0.2",
+    "? Better-Energy-production >= 0.5.3",
+    "? space-age >= 2.0.2"
   ]
 }

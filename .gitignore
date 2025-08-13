@@ -1,0 +1,71 @@
+# Factorio Mod Development
+# Ignore temporary and build files
+
+# Factorio specific
+*.zip
+*.tmp
+*.bak
+
+# Lua development
+*.lua~
+*.lua.bak
+*.lua.tmp
+
+# Development tools
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+temp/
+tmp/
+*.tmp
+
+# Backup files
+backup/
+*.backup
+
+# Test files
+test/
+tests/
+*.test.lua
+
+# Documentation build
+docs/build/
+docs/_build/
+
+# Package files
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+*.sublime-project
+*.sublime-workspace
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+
+# Git
+.gitignore.bak
+.gitattributes.bak

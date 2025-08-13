@@ -2,7 +2,7 @@ data:extend({
   {
     type = "item",
     name = "better-pumpjack-mk2",
-    icon = "__BetterOilProduction__/graphics/icons/better-pumpjack-mk2.png",
+    icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-mk2.png",
     icon_size = 64, icon_mipmaps = 4,
     subgroup = "extraction-machine",
     order = "b[fluids]-b[pumpjack]-b[mk2]",
@@ -12,7 +12,7 @@ data:extend({
   {
     type = "item",
     name = "better-pumpjack-mk3",
-    icon = "__BetterOilProduction__/graphics/icons/better-pumpjack-mk3.png",
+    icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-mk3.png",
     icon_size = 64, icon_mipmaps = 4,
     subgroup = "extraction-machine",
     order = "b[fluids]-b[pumpjack]-c[mk3]",
@@ -22,7 +22,7 @@ data:extend({
   {
     type = "item",
     name = "better-pumpjack-eco",
-    icon = "__BetterOilProduction__/graphics/icons/better-pumpjack-eco.png",
+    icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-eco.png",
     icon_size = 64, icon_mipmaps = 4,
     subgroup = "extraction-machine",
     order = "b[fluids]-b[pumpjack]-d[eco]",
