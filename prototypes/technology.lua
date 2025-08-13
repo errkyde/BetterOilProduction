@@ -72,5 +72,5 @@ data:extend({
             time = 45
         },
         order = "d-c"
-    },
+    }
 })

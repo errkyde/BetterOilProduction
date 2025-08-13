@@ -44,5 +44,5 @@ data:extend({
       {type = "item", name = "better-pumpjack-eco", amount = 1}
     },
     allow_as_intermediate = true,
-  },
+  }
 })

@@ -30,4 +30,3 @@ data:extend({
     stack_size = 20
   }
 })
-end
