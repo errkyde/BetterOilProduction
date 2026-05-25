@@ -1,6 +1,8 @@
 -- Krastorio 2: vanilla science packs are kept as-is; no recipe or technology changes needed.
 
 if mods["space-age"] then
+    require("prototypes.space-age")
+
     local atmo = {{ property = "pressure", min = 1 }}
 
     for _, name in ipairs({ "better-pumpjack-mk2", "better-pumpjack-mk3", "better-pumpjack-eco" }) do
@@ -46,6 +48,17 @@ if mods["space-age"] then
         },
         time = 45
     }
+
+    -- Carbonic asteroids yield hydrocarbon chunks alongside the normal carbon yield.
+    local crushing = data.raw.recipe["carbonic-asteroid-crushing"]
+    if crushing and crushing.results then
+        table.insert(crushing.results, {
+            type = "item",
+            name = "bop-hydrocarbon-chunk",
+            amount = 1,
+            probability = 0.3,
+        })
+    end
 end
 
 if mods["space-exploration"] then
