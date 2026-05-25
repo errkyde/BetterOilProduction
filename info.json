@@ -8,6 +8,8 @@
   "dependencies": [
     "base >= 2.0.2",
     "? Better-Energy-production >= 0.5.3",
-    "? space-age >= 2.0.2"
+    "? space-age >= 2.0.2",
+    "? Krastorio2",
+    "? space-exploration"
   ]
 }

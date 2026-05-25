@@ -29,7 +29,7 @@ data:extend({
             volume = 5000,
             pipe_covers = pipecoverspictures(),
             pipe_connections = {
-                { direction = defines.direction.north, positions = {{1, -1}, {1, -1}, {-1, 1}, {-1, 1}}, flow_direction = "output" }
+                { flow_direction = "output", direction = defines.direction.north, position = {1, -1} }
             }
         },
         radius_visualisation_picture = {
@@ -113,7 +113,7 @@ data:extend({
         resource_categories = {"basic-fluid"},
         corpse = "pumpjack-remnants",
         dying_explosion = "pumpjack-explosion",
-        collision_box = {{-1.2, -1.2}, {1.2, 1.2}},
+        collision_box = {{-1.4, -1.4}, {1.4, 1.4}},
         selection_box = {{-1.5, -1.5}, {1.5, 1.5}},
         resource_searching_radius = 0.49,
         vector_to_place_result = {0, 0},
@@ -131,7 +131,7 @@ data:extend({
             volume = 15000,
             pipe_covers = pipecoverspictures(),
             pipe_connections = {
-                { direction = defines.direction.north, positions = {{1, -1}, {1, -1}, {-1, 1}, {-1, 1}}, flow_direction = "output" }
+                { flow_direction = "output", direction = defines.direction.north, position = {1, -1} }
             }
         },
         radius_visualisation_picture = {
@@ -233,7 +233,7 @@ data:extend({
             volume = 5000,
             pipe_covers = pipecoverspictures(),
             pipe_connections = {
-                { direction = defines.direction.north, positions = {{1, -1}, {1, -1}, {-1, 1}, {-1, 1}}, flow_direction = "output" }
+                { flow_direction = "output", direction = defines.direction.north, position = {1, -1} }
             }
         },
         radius_visualisation_picture = {
