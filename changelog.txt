@@ -1,4 +1,9 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.5
+Date: 26.05.2026
+  Bugfixes:
+    - Fixed bop-hydrocarbon-chunk using non-existent item subgroup 'space-platform-utility'; changed to 'intermediate-product'.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.4
 Date: 25.05.2026
   Features:
