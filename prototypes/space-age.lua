@@ -18,7 +18,7 @@ data:extend({
                 tint = { r = 0.45, g = 0.30, b = 0.10, a = 1 },
             }
         },
-        subgroup = "space-platform-utility",
+        subgroup = "intermediate-product",
         order = "z-a[bop-hydrocarbon-chunk]",
         stack_size = 200,
     },
