@@ -11,13 +11,12 @@ data:extend({
         },
         unit =
         {
-            count = 500,
+            count = 250,
             ingredients =
             {
                 {"automation-science-pack", 1},
                 {"logistic-science-pack", 1},
                 {"chemical-science-pack", 1},
-                {"production-science-pack", 1}
             },
             time = 30
         },
@@ -35,16 +34,16 @@ data:extend({
         },
         unit =
         {
-            count = 1000,
+            count = 500,
             ingredients =
             {
                 {"automation-science-pack", 1},
                 {"logistic-science-pack", 1},
                 {"chemical-science-pack", 1},
-                {"production-science-pack", 2},
+                {"production-science-pack", 1},
                 {"utility-science-pack", 1},
             },
-            time = 60
+            time = 45
         },
         order = "d-b"
     },
@@ -53,23 +52,22 @@ data:extend({
         name = "eco-pumpjacks",
         icon = "__Better-Oil-Production__/graphics/technology/eco-pumpjacks.png",
         icon_size = 256,
-        prerequisites = {"advanced-oil-processing", "electric-engine"},
+        prerequisites = {"advanced-pumpjacks"},
         effects =
         {
             { type = "unlock-recipe", recipe = "better-pumpjack-eco" }
         },
         unit =
         {
-            count = 500,
+            count = 350,
             ingredients =
             {
                 {"automation-science-pack", 1},
                 {"logistic-science-pack", 1},
                 {"chemical-science-pack", 1},
                 {"production-science-pack", 1},
-                {"utility-science-pack", 1}
             },
-            time = 45
+            time = 30
         },
         order = "d-c"
     }
