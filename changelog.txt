@@ -1,4 +1,13 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.6
+Date: 26.05.2026
+  Balancing:
+    - Mk2 now unlocks immediately after Advanced Oil Processing using only chemical science packs (250 count), so it's available when oil actually becomes relevant.
+    - Eco Pumpjack moved between Mk2 and Mk3: requires production science (350 count), prerequisite is now Mk2 instead of Advanced Oil Processing.
+    - Mk3 base game now requires utility science packs in addition to production science.
+    - Mk3 Space Age variant requires only space science packs (first space trip), no longer requires metallurgic science.
+    - Space Oil Synthesis technology now requires metallurgic science pack as a prerequisite, gating it behind Vulcanus (second planet).
+---------------------------------------------------------------------------------------------------
 Version: 0.1.5
 Date: 26.05.2026
   Bugfixes:
