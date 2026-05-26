@@ -2,26 +2,33 @@
 Version: 0.1.6
 Date: 26.05.2026
   Balancing:
-    - Mk2 now unlocks immediately after Advanced Oil Processing using only chemical science packs (250 count), so it's available when oil actually becomes relevant.
-    - Eco Pumpjack moved between Mk2 and Mk3: requires production science (350 count), prerequisite is now Mk2 instead of Advanced Oil Processing.
+    - Mk2 now unlocks right after Advanced Oil Processing with chemical science only (250 count).
+    - Eco Pumpjack now unlocks between Mk2 and Mk3: production science, 350 count.
+    - Eco Pumpjack prerequisite changed from Advanced Oil Processing to Mk2.
     - Mk3 base game now requires utility science packs in addition to production science.
-    - Mk3 Space Age variant requires only space science packs (first space trip), no longer requires metallurgic science.
-    - Space Oil Synthesis technology now requires metallurgic science pack as a prerequisite, gating it behind Vulcanus (second planet).
+    - Mk3 Space Age variant now requires only space science packs (first space trip).
+    - Space Oil Synthesis technology now gates behind metallurgic science pack (Vulcanus).
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.5
 Date: 26.05.2026
   Bugfixes:
-    - Fixed bop-hydrocarbon-chunk using non-existent item subgroup 'space-platform-utility'; changed to 'intermediate-product'.
+    - Fixed bop-hydrocarbon-chunk using non-existent item subgroup 'space-platform-utility'.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.4
 Date: 25.05.2026
   Features:
-    - Space Age: Added space oil synthesis feature. Crushing carbonic asteroids now has a 30% chance to drop hydrocarbon chunks. A new Hydrocarbon Synthesizer (space platform machine) converts chunks and water into solid synthetic crude. Synthetic crude can be rocketed back to the planet and heated in a chemical plant to yield 500 crude oil per unit.
-    - Space Age: Pumpjacks Mk2, Mk3 and Eco now require atmospheric pressure (planet-only) and have heating energy for cold-planet survival.
-    - Space Age: Advanced Pumpjacks Mk3 and Eco Pumpjack technologies now require space-tier science packs.
-    - Space Exploration: Advanced Pumpjacks Mk3 and Eco Pumpjack technologies now require se-rocket-science-pack.
+    - Space Age: Added Hydrocarbon Synthesizer, a space-rated assembling machine.
+    - Space Age: Carbonic asteroids now have a 30% chance to drop hydrocarbon chunks when crushed.
+    - Space Age: New space oil synthesis chain: chunks and water into synthetic crude,
+      then heat synthetic crude in a chemical plant to yield 500 crude oil per unit.
+    - Space Age: Added bop-space-oil-synthesis technology.
+  Compatibility:
+    - Space Age: Pumpjacks Mk2, Mk3 and Eco restricted to atmosphere-bearing planets.
+    - Space Age: Pumpjacks include heating energy for cold-planet survival.
+    - Space Age: Mk3 and Eco technologies now require space-tier science packs.
+    - Space Exploration: Mk3 and Eco technologies now require se-rocket-science-pack.
   Bugfixes:
-    - Fixed pipe_connections using deprecated positions array format instead of single position field.
+    - Fixed pipe_connections using deprecated positions array instead of single position field.
     - Fixed Mk3 collision box being smaller than its selection box.
     - Removed deprecated icon_mipmaps field from all item definitions.
     - Fixed technology locale keys to match actual technology names.
@@ -29,20 +36,20 @@ Date: 25.05.2026
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.3
 Date: 13.08.2025
-  Features:
-    - Fixed wrong path Name in code. Game should actually start now with the mod.
+  Bugfixes:
+    - Fixed wrong file path preventing the mod from loading.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.2
 Date: 13.08.2025
-  Features:
-    - Maybe fixed dependencies again...
+  Bugfixes:
+    - Fixed mod dependencies.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.1
 Date: 13.08.2025
-  Features:
-    - Fixed dependencies
+  Bugfixes:
+    - Fixed mod dependencies.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 13.08.2025
   Features:
-    - Initial release
+    - Initial release.
