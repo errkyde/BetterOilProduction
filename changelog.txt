@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.7
+Date: 27.05.2026
+  Balancing:
+    - Renamed Better Pumpjack Mk2 to Better Pumpjack and Mk3 to Better Pumpjack Mk2.
+    - Better Pumpjack now extracts at exactly 2x vanilla speed (was 1.5x), energy 170kW.
+    - Better Pumpjack Mk2 now extracts at exactly 4x vanilla speed (was 2.5x), energy 300kW.
+    - Eco Pumpjack speed corrected to 1x (same as vanilla, was 0.9x), energy 55kW, drain 20%.
+    - Krastorio 2: Better Pumpjack scales to 4x and Better Pumpjack Mk2 to 8x to stay
+      meaningful relative to the K2 vanilla pumpjack baseline (mining_speed=2).
+---------------------------------------------------------------------------------------------------
 Version: 0.1.6
 Date: 26.05.2026
   Balancing:
