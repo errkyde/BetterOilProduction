@@ -17,13 +17,13 @@ data:extend({
         vector_to_place_result = {0, 0},
         module_slots = 3,
         allowed_effects = {"consumption", "speed", "productivity", "pollution"},
-        mining_speed = 1.5,
-        resource_drain_rate_percent = 80,
-        energy_usage = "150kW",
+        mining_speed = 2.0,
+        resource_drain_rate_percent = 100,
+        energy_usage = "170kW",
         energy_source = {
             type = "electric",
             usage_priority = "secondary-input",
-            emissions_per_minute = { pollution = 12 }
+            emissions_per_minute = { pollution = 18 }
         },
         output_fluid_box = {
             volume = 5000,
@@ -119,13 +119,13 @@ data:extend({
         vector_to_place_result = {0, 0},
         module_slots = 4,
         allowed_effects = {"consumption", "speed", "productivity", "pollution"},
-        mining_speed = 2.5,
-        resource_drain_rate_percent = 60,
-        energy_usage = "200kW",
+        mining_speed = 4.0,
+        resource_drain_rate_percent = 100,
+        energy_usage = "300kW",
         energy_source = {
             type = "electric",
             usage_priority = "secondary-input",
-            emissions_per_minute = { pollution = 20 }
+            emissions_per_minute = { pollution = 35 }
         },
         output_fluid_box = {
             volume = 15000,
@@ -221,13 +221,13 @@ data:extend({
         vector_to_place_result = {0, 0},
         module_slots = 3,
         allowed_effects = {"consumption", "productivity", "pollution"},
-        mining_speed = 0.9,
-        resource_drain_rate_percent = 35,
-        energy_usage = "50kW",
+        mining_speed = 1.0,
+        resource_drain_rate_percent = 20,
+        energy_usage = "55kW",
         energy_source = {
             type = "electric",
             usage_priority = "secondary-input",
-            emissions_per_minute = { pollution = 3 }
+            emissions_per_minute = { pollution = 2 }
         },
         output_fluid_box = {
             volume = 5000,

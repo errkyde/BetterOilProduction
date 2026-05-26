@@ -8,11 +8,11 @@ A Factorio mod that enhances oil extraction with improved pumpjack tiers and —
 
 Three new pumpjack variants replace the vanilla one at progressively higher tech tiers:
 
-| Machine | Speed | Depletion | Tech Required |
-|---|---|---|---|
-| **Better Pumpjack Mk2** | 2× | Normal | Advanced Pumpjacks |
-| **Better Pumpjack Mk3** | 4× | Normal | Advanced Pumpjacks Mk3 |
-| **Eco-Friendly Pumpjack** | 1× | Minimal | Eco Pumpjacks |
+| Machine | Speed | Energy | Depletion | Tech Required |
+|---|---|---|---|---|
+| **Better Pumpjack** | 2× | 170kW | Normal | Better Pumpjack |
+| **Better Pumpjack Mk2** | 4× | 300kW | Normal | Better Pumpjack Mk2 |
+| **Eco-Friendly Pumpjack** | 1× | 55kW | 5× slower | Eco Pumpjacks |
 
 The Eco pumpjack trades raw throughput for drastically reduced resource depletion — useful for keeping oil fields alive indefinitely.
 

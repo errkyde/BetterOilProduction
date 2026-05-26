@@ -58,6 +58,23 @@ if mods["space-age"] then
     end
 end
 
+if mods["Krastorio2"] then
+    -- K2 doubles the vanilla pumpjack (mining_speed=2, 100kW).
+    -- Scale our pumpjacks up to stay meaningful relative to the new baseline.
+    local mk2 = data.raw["mining-drill"]["better-pumpjack-mk2"]
+    if mk2 then
+        mk2.mining_speed = 4.0
+        mk2.energy_usage = "200kW"
+        mk2.energy_source.emissions_per_minute = { pollution = 22 }
+    end
+    local mk3 = data.raw["mining-drill"]["better-pumpjack-mk3"]
+    if mk3 then
+        mk3.mining_speed = 8.0
+        mk3.energy_usage = "380kW"
+        mk3.energy_source.emissions_per_minute = { pollution = 45 }
+    end
+end
+
 if mods["space-exploration"] then
     data.raw.technology["advanced-pumpjacks-mk3"].prerequisites = { "advanced-pumpjacks", "se-rocket-science-pack" }
     data.raw.technology["advanced-pumpjacks-mk3"].unit = {
