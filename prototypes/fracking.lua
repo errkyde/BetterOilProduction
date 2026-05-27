@@ -105,6 +105,8 @@ data:extend({
         category = "bop-fracking",
         enabled = false,
         energy_required = 1,
+        icon = "__base__/graphics/icons/assembling-machine-2.png",
+        icon_size = 64,
         ingredients = {
             { type = "fluid", name = "steam", amount = 100 },
         },
@@ -117,6 +119,8 @@ data:extend({
         category = "bop-eor",
         enabled = false,
         energy_required = 1,
+        icon = "__base__/graphics/icons/assembling-machine-3.png",
+        icon_size = 64,
         ingredients = {
             { type = "fluid", name = "light-oil", amount = 100 },
         },
