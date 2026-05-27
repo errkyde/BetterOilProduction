@@ -81,7 +81,8 @@ eor_injector.minable           = { mining_time = 1, result = "bop-eor-injector" 
 eor_injector.crafting_categories = { "bop-eor" }
 eor_injector.fixed_recipe      = "bop-eor-process"
 eor_injector.crafting_speed    = 1.0
-eor_injector.module_slots      = 0
+eor_injector.module_slots      = 2
+eor_injector.allowed_effects   = { "speed", "consumption", "pollution" }
 eor_injector.energy_usage      = "500kW"
 eor_injector.heating_energy    = "100kW"
 eor_injector.fluid_boxes_off_when_no_fluid_recipe = true
@@ -103,7 +104,9 @@ data:extend({
         type = "recipe",
         name = "bop-fracking-process",
         category = "bop-fracking",
-        enabled = false,
+        -- Always enabled: the station item is still research-locked; this just lets the machine
+        -- run once placed (avoids "does nothing" if research state is inconsistent).
+        enabled = true,
         energy_required = 1,
         icon = "__base__/graphics/icons/assembling-machine-2.png",
         icon_size = 64,
@@ -117,7 +120,7 @@ data:extend({
         type = "recipe",
         name = "bop-eor-process",
         category = "bop-eor",
-        enabled = false,
+        enabled = true,
         energy_required = 1,
         icon = "__base__/graphics/icons/assembling-machine-3.png",
         icon_size = 64,

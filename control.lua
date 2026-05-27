@@ -143,6 +143,25 @@ end
 
 local function on_eor_built(event)
     local entity = event.entity or event.created_entity
+    local pos    = entity.position
+
+    -- Must be placed on or directly over a crude-oil deposit.
+    local patches = entity.surface.find_entities_filtered({
+        type = "resource",
+        name = "crude-oil",
+        area = { { pos.x - 2, pos.y - 2 }, { pos.x + 2, pos.y + 2 } },
+    })
+    if #patches == 0 then
+        return_entity(entity, "bop-eor-injector", event.player_index)
+        if event.player_index then
+            game.players[event.player_index].create_local_flying_text({
+                text     = { "bop.no-oil-field" },
+                position = pos,
+            })
+        end
+        return
+    end
+
     storage.bop.eor.by_injector[entity.unit_number] = {
         injector        = entity,
         initial_amounts = {},
@@ -228,11 +247,16 @@ script.on_nth_tick(60, function()
         if not (station and station.valid) then
             -- Station gone without triggering on_removed — clean up
             storage.bop.fracking.by_station[id] = nil
-        elseif patch and patch.valid and station.is_crafting() then
-            local cap  = data.initial_amount * FRACKING_CAP
-            local rate = data.initial_amount / FRACKING_DIVISOR
-            if patch.amount < cap then
-                patch.amount = math.min(patch.amount + rate, cap)
+        elseif patch and patch.valid
+               and station.status == defines.entity_status.working then
+            -- Only boost while the pumpjack itself is actively mining
+            local pump = data.pumpjack
+            if pump and pump.valid and pump.status == defines.entity_status.working then
+                local cap  = data.initial_amount * FRACKING_CAP
+                local rate = data.initial_amount / FRACKING_DIVISOR
+                if patch.amount < cap then
+                    patch.amount = math.min(patch.amount + rate, cap)
+                end
             end
         end
     end
@@ -242,7 +266,7 @@ script.on_nth_tick(60, function()
         local injector = data.injector
         if not (injector and injector.valid) then
             storage.bop.eor.by_injector[id] = nil
-        elseif injector.is_crafting() then
+        elseif injector.status == defines.entity_status.working then
             local pos     = injector.position
             local patches = injector.surface.find_entities_filtered({
                 type = "resource",
@@ -258,9 +282,11 @@ script.on_nth_tick(60, function()
                     initial = patch.initial_amount
                     data.initial_amounts[patch.unit_number] = initial
                 end
-                local cap = initial * EOR_CAP
+                local cap  = initial * EOR_CAP
+                -- Scale rate by effective crafting speed so speed modules and beacons matter.
+                local rate = EOR_RATE * injector.crafting_speed
                 if patch.amount < cap then
-                    patch.amount = math.min(patch.amount + EOR_RATE, cap)
+                    patch.amount = math.min(patch.amount + rate, cap)
                 end
             end
         end
