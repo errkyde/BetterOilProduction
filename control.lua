@@ -160,6 +160,7 @@ local BUILD_EVENTS = {
     defines.events.script_raised_revive,
 }
 
+-- Filters are only valid for single-event registrations; name check inside handler suffices.
 script.on_event(BUILD_EVENTS, function(event)
     local entity = event.entity or event.created_entity
     if not (entity and entity.valid) then return end
@@ -168,10 +169,7 @@ script.on_event(BUILD_EVENTS, function(event)
     elseif entity.name == "bop-eor-injector" then
         on_eor_built(event)
     end
-end, {
-    { filter = "name", name = "bop-fracking-station" },
-    { filter = "name", name = "bop-eor-injector"     },
-})
+end)
 
 -- ---------------------------------------------------------------------------
 -- Cleanup on removal / death
