@@ -1,4 +1,25 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.0
+Date: 27.05.2026
+  Features:
+    - Added Fracking Station: a mid-game machine that boosts active oil fields using steam.
+      Place it directly adjacent (N/S/E/W) to any pumpjack. Limit: one per pumpjack.
+      Slowly increases field yield by up to 10% of the field's original amount.
+    - Added EOR Injector: a late-game machine that restores heavily depleted oil fields using
+      light oil. Stackable, no placement restriction. Caps at 70% of original field size.
+      Trade-off always positive: restores ~500 crude/s at a cost of 100 light oil/s (~3.2x return).
+    - Added tips-and-tricks entries for Fracking Station and EOR Injector.
+  Compatibility:
+    - Space Age: Fracking Station and EOR Injector restricted to atmosphere-bearing planets.
+    - Krastorio 2: Fracking Station and EOR Injector use K2 materials in their crafting recipes.
+  Bugfixes:
+    - Fixed fluid box volumes on pumpjack entities.
+    - Fixed item sort order so Eco Pumpjack appears between Better Pumpjack and Better Pumpjack Mk2.
+    - Krastorio 2: Added missing pollution emissions overrides for scaled pumpjack stats.
+    - Krastorio 2: Added K2 recipe overrides for all three pumpjack variants.
+    - Space Age: Added heating_energy values for all pumpjacks for cold-planet survival.
+    - Added missing tips-and-tricks entry for the Eco Pumpjack.
+---------------------------------------------------------------------------------------------------
 Version: 0.1.7
 Date: 27.05.2026
   Balancing:

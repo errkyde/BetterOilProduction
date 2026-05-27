@@ -15,7 +15,7 @@ data:extend({
     icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-mk3.png",
     icon_size = 64,
     subgroup = "extraction-machine",
-    order = "b[fluids]-b[pumpjack]-c[mk3]",
+    order = "b[fluids]-b[pumpjack]-d[mk2]",
     place_result = "better-pumpjack-mk3",
     stack_size = 20
   },
@@ -25,7 +25,7 @@ data:extend({
     icon = "__Better-Oil-Production__/graphics/icons/better-pumpjack-eco.png",
     icon_size = 64,
     subgroup = "extraction-machine",
-    order = "b[fluids]-b[pumpjack]-d[eco]",
+    order = "b[fluids]-b[pumpjack]-c[eco]",
     place_result = "better-pumpjack-eco",
     stack_size = 20
   }

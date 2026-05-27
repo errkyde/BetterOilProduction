@@ -133,6 +133,20 @@ data:extend({
     },
 })
 
+-- Tips and tricks: space synthesis chain
+data:extend({
+    {
+        type = "tips-and-tricks-item",
+        name = "bop-space-synthesis",
+        category = "bop-oil-production",
+        order = "b",
+        trigger = {
+            type = "research",
+            technology = "bop-space-oil-synthesis",
+        },
+    },
+})
+
 -- Technology
 data:extend({
     {

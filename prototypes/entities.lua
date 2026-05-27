@@ -26,7 +26,7 @@ data:extend({
             emissions_per_minute = { pollution = 18 }
         },
         output_fluid_box = {
-            volume = 5000,
+            volume = 2000,
             pipe_covers = pipecoverspictures(),
             pipe_connections = {
                 { flow_direction = "output", direction = defines.direction.north, position = {1, -1} }
@@ -128,7 +128,7 @@ data:extend({
             emissions_per_minute = { pollution = 35 }
         },
         output_fluid_box = {
-            volume = 15000,
+            volume = 4000,
             pipe_covers = pipecoverspictures(),
             pipe_connections = {
                 { flow_direction = "output", direction = defines.direction.north, position = {1, -1} }
@@ -230,7 +230,7 @@ data:extend({
             emissions_per_minute = { pollution = 2 }
         },
         output_fluid_box = {
-            volume = 5000,
+            volume = 1000,
             pipe_covers = pipecoverspictures(),
             pipe_connections = {
                 { flow_direction = "output", direction = defines.direction.north, position = {1, -1} }

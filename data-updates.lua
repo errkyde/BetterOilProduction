@@ -5,13 +5,17 @@ if mods["space-age"] then
 
     local atmo = {{ property = "pressure", min = 1 }}
 
-    for _, name in ipairs({ "better-pumpjack-mk2", "better-pumpjack-mk3", "better-pumpjack-eco" }) do
+    -- Per-tier heating energy: larger machines need more heat on cold planets like Aquilo.
+    local heating = {
+        ["better-pumpjack-eco"] = "50kW",   -- low-power, same as vanilla
+        ["better-pumpjack-mk2"] = "75kW",   -- mid tier
+        ["better-pumpjack-mk3"] = "100kW",  -- top tier
+    }
+    for name, heat in pairs(heating) do
         local drill = data.raw["mining-drill"][name]
         if drill then
-            -- Restrict to atmosphere-bearing planets (mirrors how base SA treats the vanilla pumpjack).
             drill.surface_conditions = atmo
-            -- Required for survival on cold planets such as Aquilo (matches vanilla pumpjack: 50kW).
-            drill.heating_energy = "50kW"
+            drill.heating_energy = heat
         end
     end
 
@@ -46,6 +50,14 @@ if mods["space-age"] then
         time = 45
     }
 
+    -- Fracking Station and EOR Injector are surface-bound machines — restrict to planets with atmosphere.
+    for _, name in ipairs({ "bop-fracking-station", "bop-eor-injector" }) do
+        local entity = data.raw["assembling-machine"][name]
+        if entity then
+            entity.surface_conditions = {{ property = "pressure", min = 1 }}
+        end
+    end
+
     -- Carbonic asteroids yield hydrocarbon chunks alongside the normal carbon yield.
     local crushing = data.raw.recipe["carbonic-asteroid-crushing"]
     if crushing and crushing.results then
@@ -60,18 +72,60 @@ end
 
 if mods["Krastorio2"] then
     -- K2 doubles the vanilla pumpjack (mining_speed=2, 100kW).
-    -- Scale our pumpjacks up to stay meaningful relative to the new baseline.
+    -- Scale stats and swap recipes to use K2 materials.
+
+    -- Recipe overrides
+    data.raw.recipe["better-pumpjack-mk2"].ingredients = {
+        { type = "item", name = "pumpjack",                 amount = 1  },
+        { type = "item", name = "kr-steel-beam",            amount = 10 },
+        { type = "item", name = "kr-rare-metals",           amount = 8  },
+        { type = "item", name = "kr-electronic-components", amount = 8  },
+    }
+    data.raw.recipe["better-pumpjack-mk3"].ingredients = {
+        { type = "item", name = "better-pumpjack-mk2",      amount = 1  },
+        { type = "item", name = "kr-rare-metals",           amount = 20 },
+        { type = "item", name = "kr-electronic-components", amount = 15 },
+        { type = "item", name = "kr-energy-control-unit",   amount = 3  },
+        { type = "item", name = "kr-imersium-gear-wheel",   amount = 5  },
+    }
+    data.raw.recipe["better-pumpjack-eco"].ingredients = {
+        { type = "item", name = "pumpjack",                 amount = 1  },
+        { type = "item", name = "kr-steel-beam",            amount = 5  },
+        { type = "item", name = "kr-electronic-components", amount = 5  },
+        { type = "item", name = "efficiency-module",        amount = 3  },
+    }
+
+    -- Fracking Station: swap structural/electronic materials to K2 equivalents
+    data.raw.recipe["bop-fracking-station"].ingredients = {
+        { type = "item", name = "pumpjack",                 amount = 1  },
+        { type = "item", name = "kr-steel-beam",            amount = 12 },
+        { type = "item", name = "kr-electronic-components", amount = 10 },
+        { type = "item", name = "pipe",                     amount = 5  },
+        { type = "item", name = "iron-gear-wheel",          amount = 10 },
+    }
+
+    -- EOR Injector: swap mid/late materials to K2 equivalents
+    data.raw.recipe["bop-eor-injector"].ingredients = {
+        { type = "item", name = "assembling-machine-3",     amount = 1  },
+        { type = "item", name = "kr-energy-control-unit",   amount = 8  },
+        { type = "item", name = "kr-rare-metals",           amount = 20 },
+        { type = "item", name = "kr-imersium-gear-wheel",   amount = 10 },
+        { type = "item", name = "productivity-module",      amount = 3  },
+        { type = "item", name = "electric-engine-unit",     amount = 8  },
+    }
+
+    -- Stat overrides — scale proportionally to K2 baseline (2× vanilla)
     local mk2 = data.raw["mining-drill"]["better-pumpjack-mk2"]
     if mk2 then
         mk2.mining_speed = 4.0
         mk2.energy_usage = "200kW"
-        mk2.energy_source.emissions_per_minute = { pollution = 22 }
+        mk2.energy_source.emissions_per_minute = { pollution = 36 }
     end
     local mk3 = data.raw["mining-drill"]["better-pumpjack-mk3"]
     if mk3 then
         mk3.mining_speed = 8.0
         mk3.energy_usage = "380kW"
-        mk3.energy_source.emissions_per_minute = { pollution = 45 }
+        mk3.energy_source.emissions_per_minute = { pollution = 70 }
     end
 end
 
