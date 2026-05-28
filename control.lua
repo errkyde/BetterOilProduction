@@ -10,7 +10,7 @@ local PUMPJACK_NAMES = {
 
 -- Fracking adds (initial_amount / FRACKING_DIVISOR) oil units per second.
 -- Cap: 110% of the patch's original initial_amount.
-local FRACKING_DIVISOR = 10000
+local FRACKING_DIVISOR = 1000
 local FRACKING_CAP     = 1.10
 
 -- EOR adds EOR_RATE oil units per second to every crude-oil patch within range.
@@ -247,11 +247,14 @@ script.on_nth_tick(60, function()
         if not (station and station.valid) then
             -- Station gone without triggering on_removed — clean up
             storage.bop.fracking.by_station[id] = nil
-        elseif patch and patch.valid
-               and station.status == defines.entity_status.working then
-            -- Only boost while the pumpjack itself is actively mining
-            local pump = data.pumpjack
-            if pump and pump.valid and pump.status == defines.entity_status.working then
+        elseif patch and patch.valid then
+            -- Avoid status-based check (recipe cycle can sync with tick, causing a transient
+            -- non-working state every check). Instead verify steam is present in the buffer.
+            local steam = station.get_fluid_contents()["steam"]
+            local pump  = data.pumpjack
+            if steam and steam > 0
+               and pump and pump.valid
+               and pump.status == defines.entity_status.working then
                 local cap  = data.initial_amount * FRACKING_CAP
                 local rate = data.initial_amount / FRACKING_DIVISOR
                 if patch.amount < cap then
