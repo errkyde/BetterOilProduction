@@ -40,7 +40,7 @@ data:extend({
         enabled = false,
         energy_required = 15,
         ingredients = {
-            { type = "item",  name = "bop-hydrocarbon-chunk", amount = 5   },
+            { type = "item",  name = "bop-hydrocarbon-chunk", amount = 4   },
             { type = "fluid", name = "water",                 amount = 100 },
         },
         results = {

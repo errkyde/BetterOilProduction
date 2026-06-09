@@ -8,13 +8,14 @@ Date: 01.06.2026
       Injection rate scales with the paired pumpjack's effective mining speed.
       Yield cap: 150% of the field's original amount.
     - Added EOR Injector: a late-game machine that slowly restores depleted oil fields.
-      Place it on a crude-oil deposit; affects all patches within a 10-tile radius.
-      Supports three injection fluids selectable via recipe:
+      Place it on a crude-oil deposit (where a pumpjack would sit); it restores the single
+      contiguous oil field it stands on. Supports three injection fluids selectable via recipe:
         · Steam        — cheap, ~3.2 hours per fully depleted field.
         · Light Oil    — balanced, ~39 minutes per fully depleted field.
         · Polymer Slurry — fastest, ~19 minutes per fully depleted field.
-      Recovery caps at 70% of each patch's original amount.
-      Recovery rate is percentage-based so time-to-cap is constant regardless of field richness.
+      Recovery caps at 70% of the field's original (map-generated) richness, then stops
+      automatically. Recovery rate is percentage-based so time-to-cap is constant regardless
+      of field richness.
     - Added Polymer Slurry fluid: a coal-tar injection compound produced in a chemical plant
       from petroleum gas, sulfuric acid, and coal. Unlocked with the EOR technology.
     - Fracking Station now ejects back to player inventory (or spills on ground) when its
@@ -23,12 +24,16 @@ Date: 01.06.2026
       the 150% yield cap, stopping unnecessary steam consumption. The machine resumes when
       extraction draws the yield back below the cap. The inactive state is readable via
       circuit network, allowing automated shutoff logic.
-    - EOR Injector now caches nearby oil patches at placement and rescans every ~10 minutes,
-      eliminating the per-tick spatial search that previously ran every second per injector.
-      Old saves migrate automatically on first tick.
+    - EOR Injector flood-fills its contiguous oil field once at placement instead of scanning
+      a fixed radius, so it never bleeds into unrelated nearby fields, and it derives its 70%
+      cap from each tile's true map-generated richness rather than the current depleted amount.
+      It stops cleanly once the field reaches the cap. Old saves migrate automatically on first tick.
     - Upgrade planner now chains: Pumpjack → Better Pumpjack → Better Pumpjack Mk2.
     - Added tips-and-tricks entries for Fracking Station and EOR Injector.
   Changes:
+    - Pumpjack tier speeds are now derived relative to the vanilla pumpjack in the final data
+      stage, so they always hold even when another mod alters the vanilla pumpjack (e.g.
+      Krastorio2 finite-oil): Better = 2× vanilla, Mk2 = 2× Better, Eco = 0.5× vanilla.
     - Renamed the pumpjack prototypes and technologies so the internal names match the
       in-game tiers. Entities/items/recipes: "better-pumpjack-mk2" -> "better-pumpjack"
       (tier 1) and "better-pumpjack-mk3" -> "better-pumpjack-mk2" (tier 2). Technologies:
@@ -41,6 +46,9 @@ Date: 01.06.2026
     - Space Oil Synthesis: synthetic crude now yields 300 crude oil (down from 500). The chain
       is asteroid-collection limited so throughput is already constrained, but 500 made single
       rocket deliveries feel disproportionately large for an oil supplement chain.
+    - Space Oil Synthesis inputs made a little cheaper: carbonic asteroid crushing now drops
+      Hydrocarbon Chunks at 40% (up from 30%), and Synthetic Crude costs 4 chunks (down from 5).
+      Crude oil per Synthetic Crude is unchanged at 300.
     - Eco Pumpjack mining speed reduced from 1.0x to 0.5x, making it a genuine throughput
       trade-off: two Eco pumps equal one vanilla pump in output, but deplete the field
       ten times slower (0.5× speed × 20% drain rate = 10% net depletion vs vanilla).

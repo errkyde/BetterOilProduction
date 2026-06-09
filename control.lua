@@ -7,6 +7,7 @@ local PUMPJACK_NAMES = {
     "better-pumpjack-mk2",
     "better-pumpjack-eco",
 }
+-- Upgrade lineup: Pumpjack -> Better Pumpjack -> Better Pumpjack Mk2 (Eco is a side-grade).
 local PUMPJACK_SET = {}
 for _, n in ipairs(PUMPJACK_NAMES) do PUMPJACK_SET[n] = true end
 
@@ -21,9 +22,12 @@ local FRACKING_CAP     = 1.50
 local EOR_RATE_STEAM   = 0.00006
 local EOR_RATE_OIL     = 0.0003
 local EOR_RATE_POLYMER = 0.0006
-local EOR_CAP             = 0.70
-local EOR_RADIUS          = 10       -- tiles
-local EOR_RESCAN_INTERVAL = 36000    -- ticks (~10 min at 60 UPS)
+local EOR_CAP          = 0.70
+-- Half-extent (tiles) of the box scanned once at placement to flood-fill the contiguous
+-- field the injector sits on. Generous enough to cover vanilla oil fields; bounded for perf.
+local EOR_SEARCH_RADIUS = 48
+-- Bumped whenever the cached field/cap layout changes so older entries are rebuilt on load.
+local EOR_SCHEMA = 2
 
 -- ---------------------------------------------------------------------------
 -- Storage initialisation
@@ -123,48 +127,78 @@ local function format_oil(amount)
 end
 
 -- ---------------------------------------------------------------------------
--- Helper: build EOR patch cache (all crude-oil within EOR_RADIUS of injector)
+-- Helper: find the contiguous crude-oil field the injector sits on
 -- ---------------------------------------------------------------------------
 
--- Returns an array of {patch, initial} structs. Resource entities do not have unit_number
--- (world-generated entities are not player-created), so keyed tables are not used.
+-- The injector occupies the tile a pumpjack would, so it restores exactly ONE oil field:
+-- the connected cluster of crude-oil entities flood-filled from its footprint. A separate
+-- field that merely happens to be nearby is excluded because it is not contiguous.
 --
--- existing_cache: previous cache table passed on rescans so that stored initial values for
--- already-tracked patches are preserved. Without this, infinite resources (initial_amount=nil)
--- would get a new fallback on every rescan, drifting the cap as the field depletes.
-local function eor_build_patch_cache(injector, existing_cache)
-    local pos   = injector.position
-    local found = injector.surface.find_entities_filtered({
+-- Returns an array of { patch, cap } structs. The cap is fixed at placement.
+--
+-- Baseline (the "original richness" we restore toward), in priority order:
+--   1. patch.initial_amount — the true map-generated amount, when the engine exposes it.
+--   2. prototype.normal_resource_amount — the 100%-yield reference. crude-oil's initial_amount
+--      reads as nil in practice, so this is the path normally taken: EOR restores a depleted
+--      field up to 70% YIELD (0.7 * normal_resource_amount).
+-- The current amount is never used as the baseline: cap = 0.7 * current would sit below the
+-- current amount, making every patch read as already complete (the "always complete" bug).
+--
+-- Resource entities have no unit_number, so contiguity is tracked by integer tile key.
+local function eor_find_field(injector)
+    local surface = injector.surface
+    local pos     = injector.position
+
+    -- One bounded scan; index every crude-oil tile in range by its integer position.
+    local by_key = {}
+    local in_range = surface.find_entities_filtered({
         type = "resource",
         name = "crude-oil",
         area = {
-            { pos.x - EOR_RADIUS, pos.y - EOR_RADIUS },
-            { pos.x + EOR_RADIUS, pos.y + EOR_RADIUS },
+            { pos.x - EOR_SEARCH_RADIUS, pos.y - EOR_SEARCH_RADIUS },
+            { pos.x + EOR_SEARCH_RADIUS, pos.y + EOR_SEARCH_RADIUS },
         },
     })
-    -- Build a lookup of previously stored initials so rescans don't reset them.
-    local preserved = {}
-    if existing_cache then
-        for _, e in ipairs(existing_cache) do
-            if e.patch.valid then preserved[e.patch] = e.initial end
+    for _, e in pairs(in_range) do
+        by_key[math.floor(e.position.x) .. ":" .. math.floor(e.position.y)] = e
+    end
+
+    -- Seeds: crude-oil tiles inside the injector's 3×3 footprint.
+    local queue, seen, field = {}, {}, {}
+    local seeds = surface.find_entities_filtered({
+        type = "resource",
+        name = "crude-oil",
+        area = { { pos.x - 1.5, pos.y - 1.5 }, { pos.x + 1.5, pos.y + 1.5 } },
+    })
+    for _, e in pairs(seeds) do
+        local k = math.floor(e.position.x) .. ":" .. math.floor(e.position.y)
+        if not seen[k] then seen[k] = true; queue[#queue + 1] = e end
+    end
+
+    -- Flood-fill over 8-neighbour adjacency, restricted to tiles found in range.
+    while #queue > 0 do
+        local e = table.remove(queue)
+        -- Baseline: true original if available, else the 100%-yield reference. Never the
+        -- current amount (that would put the cap below current and complete instantly).
+        local ref = e.initial_amount
+        if not ref then
+            local normal = e.prototype.normal_resource_amount
+            ref = (normal and normal > 0) and normal or e.amount
+        end
+        field[#field + 1] = { patch = e, cap = ref * EOR_CAP }
+        local ex, ey = math.floor(e.position.x), math.floor(e.position.y)
+        for dx = -1, 1 do
+            for dy = -1, 1 do
+                if not (dx == 0 and dy == 0) then
+                    local k = (ex + dx) .. ":" .. (ey + dy)
+                    local n = by_key[k]
+                    if n and not seen[k] then seen[k] = true; queue[#queue + 1] = n end
+                end
+            end
         end
     end
-    local cache = {}
-    for _, p in pairs(found) do
-        -- initial_amount is set by the map generator for finite deposits and for infinite
-        -- resources in most contexts. When it is nil (script-placed deposits or certain modded
-        -- resources), fall back to the stored initial from a prior scan. If that is also absent
-        -- (first placement on an unknown patch), estimate a baseline by assuming the current
-        -- amount represents the field already being at the EOR cap fraction of some original.
-        -- Solving cap = initial * EOR_CAP = p.amount / EOR_CAP gives
-        -- initial = p.amount / EOR_CAP^2, so the restored cap is p.amount / EOR_CAP
-        -- (≈1.43× current). This keeps cap strictly above current so EOR actually runs
-        -- rather than immediately flagging itself complete.
-        local initial = p.initial_amount or preserved[p]
-            or (p.amount / (EOR_CAP * EOR_CAP))
-        cache[#cache + 1] = { patch = p, initial = initial }
-    end
-    return cache
+
+    return field
 end
 
 -- ---------------------------------------------------------------------------
@@ -250,10 +284,10 @@ local function on_eor_built(event)
     end
 
     storage.bop.eor.by_injector[entity.unit_number] = {
-        injector     = entity,
-        patches      = eor_build_patch_cache(entity),
-        rescan_at    = game.tick + EOR_RESCAN_INTERVAL,
-        all_complete = false,
+        injector = entity,
+        field    = eor_find_field(entity),
+        complete = false,
+        schema   = EOR_SCHEMA,
     }
 end
 
@@ -401,85 +435,91 @@ script.on_nth_tick(60, function()
         if not (injector and injector.valid) then
             storage.bop.eor.by_injector[id] = nil
         else
-            -- Rescan runs outside the working-status check so progress and cap detection
-            -- remain accurate even when the injector is paused by our script.
-            if not data.patches or not data.rescan_at or game.tick >= data.rescan_at then
-                data.patches   = eor_build_patch_cache(injector, data.patches)
-                data.rescan_at = game.tick + EOR_RESCAN_INTERVAL
+            -- Rebuild entries from any older schema (old radius-scan with data.patches, or an
+            -- earlier field layout whose caps were computed differently). Re-enable the machine
+            -- in case the old logic had paused it.
+            if data.schema ~= EOR_SCHEMA then
+                data.field      = eor_find_field(injector)
+                data.complete   = false
+                data.schema     = EOR_SCHEMA
+                injector.active = true
             end
 
-            -- Recovery rate is 0 when the machine is not actively working (no fluid, no power,
-            -- or deactivated). Progress tracking still runs so the UI stays accurate.
-            local rate_multiplier = 0
-            if injector.status == defines.entity_status.working then
-                local recipe = injector.get_recipe()
-                local base_rate
-                if recipe and recipe.name == "bop-eor-steam-process" then
-                    base_rate = EOR_RATE_STEAM
-                elseif recipe and recipe.name == "bop-eor-polymer-process" then
-                    base_rate = EOR_RATE_POLYMER
+            if data.complete then
+                -- One-shot: the field reached 70%. The injector is meant to be removed and
+                -- replaced by a pumpjack, so it stays off and simply shows the completed status.
+                if #data.field > 0 then
+                    injector.custom_status = {
+                        diode = defines.entity_status_diode.green,
+                        label = { "bop.eor-complete" },
+                    }
                 else
-                    base_rate = EOR_RATE_OIL
+                    injector.custom_status = nil
                 end
-                rate_multiplier = base_rate * injector.crafting_speed
-            end
+            else
+                -- Recovery rate is 0 unless the machine is actively crafting (has fluid + power).
+                local rate_multiplier = 0
+                if injector.status == defines.entity_status.working then
+                    local recipe = injector.get_recipe()
+                    local base_rate
+                    if recipe and recipe.name == "bop-eor-steam-process" then
+                        base_rate = EOR_RATE_STEAM
+                    elseif recipe and recipe.name == "bop-eor-polymer-process" then
+                        base_rate = EOR_RATE_POLYMER
+                    else
+                        base_rate = EOR_RATE_OIL
+                    end
+                    rate_multiplier = base_rate * injector.crafting_speed
+                end
 
-            local total_progress = 0
-            local total_current  = 0
-            local total_cap      = 0
-            local patch_count    = 0
-            local all_complete   = true
+                local total_current = 0
+                local total_cap     = 0
+                local all_complete  = true
 
-            for i = #data.patches, 1, -1 do
-                local entry = data.patches[i]
-                if not entry.patch.valid then
-                    table.remove(data.patches, i)
-                else
-                    local initial = entry.initial
-                    if initial > 0 then
-                        local cap = initial * EOR_CAP
-                        if entry.patch.amount < cap then
-                            all_complete = false
-                            if rate_multiplier > 0 then
-                                entry.patch.amount = math.min(entry.patch.amount + initial * rate_multiplier, cap)
+                for i = #data.field, 1, -1 do
+                    local entry = data.field[i]
+                    if not entry.patch.valid then
+                        table.remove(data.field, i)
+                    else
+                        local cap = entry.cap
+                        if cap > 0 then
+                            if entry.patch.amount < cap then
+                                all_complete = false
+                                if rate_multiplier > 0 then
+                                    -- Per-tile fill scales with that tile's own richness
+                                    -- (initial = cap / EOR_CAP), clamped exactly to the cap.
+                                    local initial = cap / EOR_CAP
+                                    entry.patch.amount = math.min(entry.patch.amount + initial * rate_multiplier, cap)
+                                end
                             end
+                            total_current = total_current + math.min(entry.patch.amount, cap)
+                            total_cap     = total_cap + cap
                         end
-                        local amt      = math.min(entry.patch.amount, cap)
-                        total_progress = total_progress + amt / cap
-                        total_current  = total_current + math.floor(amt)
-                        total_cap      = total_cap + math.floor(cap)
-                        patch_count    = patch_count + 1
                     end
                 end
-            end
 
-            -- Sync active state: pause when all patches hit cap, resume if they drop below again.
-            if all_complete and patch_count > 0 and not data.all_complete then
-                data.all_complete = true
-                injector.active   = false
-            elseif not all_complete and data.all_complete then
-                data.all_complete = false
-                injector.active   = true
-            end
-
-            -- Update the custom status shown in the entity info panel.
-            if patch_count == 0 then
-                injector.custom_status = nil
-            elseif all_complete then
-                injector.custom_status = {
-                    diode = defines.entity_status_diode.green,
-                    label = { "bop.eor-complete" },
-                }
-            else
-                injector.custom_status = {
-                    diode = defines.entity_status_diode.yellow,
-                    label = {
-                        "bop.eor-progress",
-                        math.floor(total_progress / patch_count * 100),
-                        format_oil(total_current),
-                        format_oil(total_cap),
-                    },
-                }
+                if total_cap <= 0 then
+                    -- Field exhausted/removed under the injector — nothing to restore.
+                    injector.custom_status = nil
+                elseif all_complete then
+                    -- First and only transition to complete: stop and lock in 100%.
+                    data.complete   = true
+                    injector.active = false
+                    injector.custom_status = {
+                        diode = defines.entity_status_diode.green,
+                        label = { "bop.eor-complete" },
+                    }
+                else
+                    injector.custom_status = {
+                        diode = defines.entity_status_diode.yellow,
+                        label = {
+                            "bop.eor-progress",
+                            math.floor(total_current / total_cap * 100),
+                            format_oil(total_current),
+                            format_oil(total_cap),
+                        },
+                    }
+                end
             end
         end
     end
