@@ -13,6 +13,9 @@ data:extend({
         subgroup = "intermediate-product",
         order = "z-a[bop-hydrocarbon-chunk]",
         stack_size = 200,
+        -- Cannot be rocket-launched: chunks must be synthesised into Synthetic Crude in space;
+        -- only the resulting Synthetic Crude is shipped to the planet.
+        send_to_orbit_mode = "not-sendable",
     },
     {
         type = "item",
