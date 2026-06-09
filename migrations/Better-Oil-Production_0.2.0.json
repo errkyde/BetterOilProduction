@@ -1,0 +1,17 @@
+{
+  "entity": {
+    "better-pumpjack-mk2": "better-pumpjack",
+    "better-pumpjack-mk3": "better-pumpjack-mk2"
+  },
+  "item": {
+    "better-pumpjack-mk2": "better-pumpjack",
+    "better-pumpjack-mk3": "better-pumpjack-mk2"
+  },
+  "recipe": {
+    "better-pumpjack-mk2": "better-pumpjack",
+    "better-pumpjack-mk3": "better-pumpjack-mk2"
+  },
+  "technology": {
+    "advanced-pumpjacks-mk3": "advanced-pumpjacks-mk2"
+  }
+}

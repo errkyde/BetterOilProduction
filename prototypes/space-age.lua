@@ -24,7 +24,7 @@ data:extend({
                 tint = { r = 0.15, g = 0.08, b = 0.03, a = 1 },
             }
         },
-        subgroup = "extraction-machine",
+        subgroup = "intermediate-product",
         order = "z-c[bop-synthetic-crude]",
         stack_size = 100,
     },
@@ -59,7 +59,7 @@ data:extend({
             { type = "item", name = "bop-synthetic-crude", amount = 1 },
         },
         results = {
-            { type = "fluid", name = "crude-oil", amount = 500 }
+            { type = "fluid", name = "crude-oil", amount = 300 }
         },
     },
 })
@@ -72,7 +72,7 @@ data:extend({
         category = "bop-oil-production",
         order = "d",
         trigger = {
-            type = "research",
+            type       = "research",
             technology = "bop-space-oil-synthesis",
         },
     },
@@ -85,7 +85,7 @@ data:extend({
         name = "bop-space-oil-synthesis",
         icon = "__space-age__/graphics/technology/space-platform.png",
         icon_size = 256,
-        prerequisites = { "advanced-pumpjacks", "space-science-pack", "metallurgic-science-pack" },
+        prerequisites = { "advanced-pumpjacks", "space-science-pack" },
         effects = {
             { type = "unlock-recipe", recipe = "bop-space-synthesis"      },
             { type = "unlock-recipe", recipe = "bop-crude-from-synthetic" },
@@ -93,11 +93,10 @@ data:extend({
         unit = {
             count = 500,
             ingredients = {
-                { "automation-science-pack",  1 },
-                { "logistic-science-pack",    1 },
-                { "chemical-science-pack",    1 },
-                { "space-science-pack",       1 },
-                { "metallurgic-science-pack", 1 },
+                { "automation-science-pack", 1 },
+                { "logistic-science-pack",   1 },
+                { "chemical-science-pack",   1 },
+                { "space-science-pack",      1 },
             },
             time = 60,
         },

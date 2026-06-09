@@ -2,12 +2,12 @@ data:extend({
     {
         type = "technology",
         name = "advanced-pumpjacks",
-        icon = "__Better-Oil-Production__/graphics/technology/advanced-pumpjacks-mk2.png",
+        icon = "__Better-Oil-Production__/graphics/technology/advanced-pumpjacks.png",
         icon_size = 256,
         prerequisites = {"advanced-oil-processing"},
         effects =
         {
-            { type = "unlock-recipe", recipe = "better-pumpjack-mk2" }
+            { type = "unlock-recipe", recipe = "better-pumpjack" }
         },
         unit =
         {
@@ -24,13 +24,13 @@ data:extend({
     },
     {
         type = "technology",
-        name = "advanced-pumpjacks-mk3",
-        icon = "__Better-Oil-Production__/graphics/technology/advanced-pumpjacks-mk3.png",
+        name = "advanced-pumpjacks-mk2",
+        icon = "__Better-Oil-Production__/graphics/technology/advanced-pumpjacks-mk2.png",
         icon_size = 256,
         prerequisites = {"advanced-pumpjacks"},
         effects =
         {
-            { type = "unlock-recipe", recipe = "better-pumpjack-mk3" }
+            { type = "unlock-recipe", recipe = "better-pumpjack-mk2" }
         },
         unit =
         {

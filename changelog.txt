@@ -1,24 +1,206 @@
 ---------------------------------------------------------------------------------------------------
 Version: 0.2.0
-Date: 27.05.2026
+Date: 01.06.2026
   Features:
-    - Added Fracking Station: a mid-game machine that boosts active oil fields using steam.
-      Place it directly adjacent (N/S/E/W) to any pumpjack. Limit: one per pumpjack.
-      Slowly increases field yield by up to 10% of the field's original amount.
-    - Added EOR Injector: a late-game machine that restores heavily depleted oil fields using
-      light oil. Stackable, no placement restriction. Caps at 70% of original field size.
-      Trade-off always positive: restores ~500 crude/s at a cost of 100 light oil/s (~3.2x return).
+    - Added Fracking Station: a mid-game machine that boosts active oil fields by injecting
+      high-pressure steam. Place it directly adjacent (N/S/E/W) to any pumpjack.
+      Limit: one per pumpjack. Steam can be connected from any of the four sides.
+      Injection rate scales with the paired pumpjack's effective mining speed.
+      Yield cap: 150% of the field's original amount.
+    - Added EOR Injector: a late-game machine that slowly restores depleted oil fields.
+      Place it on a crude-oil deposit; affects all patches within a 10-tile radius.
+      Supports three injection fluids selectable via recipe:
+        · Steam        — cheap, ~3.2 hours per fully depleted field.
+        · Light Oil    — balanced, ~39 minutes per fully depleted field.
+        · Polymer Slurry — fastest, ~19 minutes per fully depleted field.
+      Recovery caps at 70% of each patch's original amount.
+      Recovery rate is percentage-based so time-to-cap is constant regardless of field richness.
+    - Added Polymer Slurry fluid: a coal-tar injection compound produced in a chemical plant
+      from petroleum gas, sulfuric acid, and coal. Unlocked with the EOR technology.
+    - Fracking Station now ejects back to player inventory (or spills on ground) when its
+      adjacent pumpjack is removed, preventing silent steam waste.
+    - Fracking Station now automatically pauses (goes inactive) when the paired field reaches
+      the 150% yield cap, stopping unnecessary steam consumption. The machine resumes when
+      extraction draws the yield back below the cap. The inactive state is readable via
+      circuit network, allowing automated shutoff logic.
+    - EOR Injector now caches nearby oil patches at placement and rescans every ~10 minutes,
+      eliminating the per-tick spatial search that previously ran every second per injector.
+      Old saves migrate automatically on first tick.
+    - Upgrade planner now chains: Pumpjack → Better Pumpjack → Better Pumpjack Mk2.
     - Added tips-and-tricks entries for Fracking Station and EOR Injector.
+  Changes:
+    - Renamed the pumpjack prototypes so the internal names match the in-game tiers. The
+      tier-1 machine is now "better-pumpjack" (was "better-pumpjack-mk2"), the tier-2 machine
+      is now "better-pumpjack-mk2" (was "better-pumpjack-mk3"), and the tier-2 technology is
+      now "advanced-pumpjacks-mk2" (was "advanced-pumpjacks-mk3"). The lineup is Better
+      Pumpjack, Better Pumpjack Mk2, and Eco-Friendly Pumpjack. Display names, stats, recipes,
+      and research progression are unchanged. Existing saves migrate automatically via
+      migrations/Better-Oil-Production_0.2.0.json.
+  Balancing:
+    - Space Oil Synthesis: synthetic crude now yields 300 crude oil (down from 500). The chain
+      is asteroid-collection limited so throughput is already constrained, but 500 made single
+      rocket deliveries feel disproportionately large for an oil supplement chain.
+    - Eco Pumpjack mining speed reduced from 1.0x to 0.5x, making it a genuine throughput
+      trade-off: two Eco pumps equal one vanilla pump in output, but deplete the field
+      ten times slower (0.5× speed × 20% drain rate = 10% net depletion vs vanilla).
+      Energy and depletion rate unchanged.
+    - Better Pumpjack Mk2 energy usage raised from 300 kW to 420 kW to reflect its power
+      cost more accurately relative to lower tiers.
+    - EOR Injector crafting recipe: assembling-machine-3 (1), processing-unit (15),
+      refined-concrete (20), electric-engine-unit (8), steel-plate (10), pipe (10).
+  Recipe Reworks:
+    - Better Pumpjack Mk2 crafting recipe replaced: now requires the Better Pumpjack as a
+      base plus steel-plate (40), electric-engine-unit (12), processing-unit (8),
+      and concrete (20). Removed module ingredients.
+    - EOR Injector crafting recipe uses refined-concrete (20) instead of modules for the
+      structural component, keeping it buildable without optional tech.
+    - Polymer Slurry recipe (chemistry): petroleum-gas (80) + sulfuric-acid (40) + coal (20)
+      → 100 Polymer Slurry per 8 seconds.
   Compatibility:
     - Space Age: Fracking Station and EOR Injector restricted to atmosphere-bearing planets.
+    - Space Age: Space Oil Synthesis technology now requires only space-science-pack (first
+      rocket launch). Removed the metallurgic-science-pack (Vulcanus) requirement, which was
+      thematically inconsistent with the organic hydrocarbon chain.
+    - Space Age: Added Refined Polymer Slurry recipe — uses solid fuel instead of coal,
+      yields 150 per batch. Unlocked with the EOR technology.
     - Krastorio 2: Fracking Station and EOR Injector use K2 materials in their crafting recipes.
+    - Krastorio 2: Better Pumpjack Mk2 recipe override updated to use kr-steel-beam,
+      electric-engine-unit, kr-energy-control-unit, and concrete.
+    - Krastorio 2: EOR Injector recipe override updated to use refined-concrete.
+    - Krastorio 2: Better Pumpjack Mk2 energy raised to 420 kW (matches the non-K2 Mk3 at equivalent 4× speed).
   Bugfixes:
+    - Fixed fracking station consuming steam without effect after its pumpjack is removed.
+    - Fixed EOR flat restoration rate causing impractically long recovery times on
+      richness-boosted maps. Rate is now percentage-based.
     - Fixed fluid box volumes on pumpjack entities.
-    - Fixed item sort order so Eco Pumpjack appears between Better Pumpjack and Better Pumpjack Mk2.
+    - Fixed item sort order so Eco Pumpjack appears between Better Pumpjack and Mk2.
+    - Fixed Fracking Station immediately disabling itself on infinite crude-oil patches
+      (vanilla, or K2 with finite-oil off): patch.initial_amount is nil for infinite resources,
+      which produced cap=0 and caused the at-cap check to permanently fire. Now falls back to
+      patch.amount so cap and rate calculations remain valid.
+    - Fixed EOR Injector potential nil-arithmetic crash on infinite crude-oil patches for the
+      same reason; initial_amount fallback applied at placement and during rescan.
+    - Fixed pumpjack collision_box on all three BOP pumpjack variants (Mk2, Mk3, Eco): updated
+      from {{-1.4,-1.4},{1.4,1.4}} to {{-1.2,-1.2},{1.2,1.2}} to match the Factorio 2.0 vanilla
+      pumpjack. The mismatch broke the next_upgrade chain (pumpjack → Better Pumpjack).
+    - Fixed bop-synthetic-crude appearing in the extraction-machine item subgroup (alongside
+      pumpjacks) instead of intermediate-product where it belongs.
+    - Fixed stale fracking station storage entries accumulating when the underlying oil patch
+      entity is invalidated by a mod interaction; affected stations are now deactivated and
+      the storage entry cleaned up.
+    - Fixed EOR initial_amounts table growing indefinitely as oil patches are exhausted;
+      stale entries are now evicted during the periodic patch cache rescan.
+    - Fixed EOR injector patch cache not being cleaned up when individual patch entities become
+      invalid between rescans; invalid patches are now evicted immediately on discovery.
+    - Fixed Polymer Slurry described as requiring "processing units" in the EOR tip; the
+      recipe uses coal, not processing units.
+    - Fixed Space Oil Synthesis technology description omitting that ice asteroids are the
+      water source needed for the space-side synthesis recipe.
+    - Fixed Hydrocarbon Synthesis recipe name not indicating it is the space-only variant;
+      renamed to "Space Hydrocarbon Synthesis".
+    - Fixed EOR Injector item, entity, and technology descriptions not mentioning the
+      interaction with Fracking Station. Added guidance: EOR caps at 70%, below the fracking
+      ceiling of 150%, so EOR is most effective when applied before fracking.
+    - Krastorio 2: Fixed pumpjack stat scaling (Mk2 ×4, Mk3 ×8) being applied unconditionally
+      regardless of the kr-finite-oil setting. Scaling now only activates when finite-oil is
+      enabled (the K2 default), which is the only case where K2 doubles the vanilla pumpjack
+      baseline. With finite-oil off the vanilla pumpjack is unchanged and BOP's default stats
+      are used, preventing Mk2 from running at 4× vanilla instead of the intended 2×.
     - Krastorio 2: Added missing pollution emissions overrides for scaled pumpjack stats.
     - Krastorio 2: Added K2 recipe overrides for all three pumpjack variants.
     - Space Age: Added heating_energy values for all pumpjacks for cold-planet survival.
     - Added missing tips-and-tricks entry for the Eco Pumpjack.
+    - Fixed bop-fracking-process and bop-eor-process (light oil) recipes incorrectly set to
+      enabled=true; they are now locked behind their respective technologies like all other
+      process recipes. Previously these were always available in the machine menu at game start.
+    - Fixed EOR Injector all_complete field not initialised to false at placement; on the very
+      first tick the nil→false transition could incorrectly fire the active=false branch for
+      injectors whose patches were already at cap from a prior session.
+    - Fixed Fracking Station allowing placement when the adjacent pumpjack has no crude-oil
+      deposit within its mining radius; the station would accept steam and consume it without
+      ever adding oil. Placement is now rejected with a "no oil deposit near pumpjack" message
+      and the item is returned, matching the behaviour of the other validation checks.
+    - Fixed Fracking Station not setting allowed_effects={}; the deepcopy from assembling-machine-2
+      inherited am2's allowed effects even though module_slots was set to 0, causing an
+      inconsistency in the prototype definition.
+    - Fixed item sort-order key for Better Pumpjack Mk2: was "d[mk2]" (same prefix as the 4×
+      variant) — corrected to "d[mk3]" so the Mk2 appears unambiguously between Eco and Mk3.
+    - Krastorio 2: Fixed K2 finite-oil Mk2 energy set to 200 kW (below the non-K2 default of
+      170 kW); corrected to 420 kW to match the non-K2 Mk3 at equivalent 4× speed.
+    - Fixed all descriptions stating the Eco Pumpjack "depletes fields five times slower": at
+      0.5× speed with 20% drain rate the actual net depletion is 10% of vanilla (ten times
+      slower, not five). All locale strings updated to "ten times slower".
+    - Fixed EOR Injector and Fracking Station pipe stubs not visible when connected — only the
+      pipe cap/cover was rendered. pipe_picture was silently dropped when fluid_boxes was fully
+      replaced from the entity deepcopy; now preserved from the source assembling machine.
+      Both machines now also accept fluid connections on all four sides (N/E/S/W) instead of
+      south only.
+    - Fixed EOR Injector displaying wildly incorrect recovery totals (e.g. "1050k") when
+      crude-oil patch initial_amount is nil (infinite resources or script-placed deposits): the
+      hardcoded EOR_INFINITE_BASELINE of 500,000 per patch multiplied across all patches in the
+      10-tile radius produced values far higher than the actual field size.
+    - Fixed EOR Injector immediately showing "Recovery complete" on every patch when
+      initial_amount is nil: the previous fallback used p.amount as the initial, making cap
+      = p.amount × 0.70 which is always below the current amount — so EOR never ran. The new
+      fallback derives initial = p.amount / EOR_CAP² so that cap = p.amount / EOR_CAP
+      (≈1.43× current), giving EOR a reachable target above the current field level. The
+      preserved-across-rescan logic ensures the estimate stays anchored to the placement-time
+      amount rather than drifting down as the field depletes.
+    - Fixed EOR Injector status panel showing values ≥1,000,000 as "1050k" style instead of
+      "1.05M". Numbers are now formatted with an M suffix above 999k.
+    - Fixed Better Pumpjack (Mk2, Mk3, Eco) pipe connection not following entity rotation: all
+      three variants used the single-position format (position = {x,y}) which does not rotate
+      with the entity, causing the pipe visual and connection point to appear at wrong positions
+      for East, South, and West orientations. Replaced with the Factorio 2.0 multi-position
+      format (positions = {N, E, S, W}) matching the vanilla pumpjack exactly.
+    - Fixed Fracking Station carrying fluid_boxes_off_when_no_fluid_recipe = true despite having
+      a fixed_recipe set; the field has no effect when fixed_recipe is present and was removed.
+    - Fixed Fracking Station and EOR Injector fluid boxes missing secondary_draw_orders = {north=-1};
+      without this the pipe stub sprite renders on top of the machine body when facing north,
+      instead of behind it as vanilla assembling-machine-2/3 does.
+    - Fixed Fracking Station and EOR Injector pipe_picture being extracted from the entity deepcopy
+      instead of calling assembler2pipepictures()/assembler3pipepictures() directly; the deepcopy
+      approach was fragile under certain mod load orders. Now calls the vanilla helper functions directly.
+    - Fixed bop-fracking-process recipe using top-level icon/icon_size fields instead of the icons
+      array format; also added the station tint so the recipe icon matches the Fracking Station item.
+    - Fixed all three BOP pumpjack variants (Mk2, Mk3, Eco) missing open_sound and close_sound;
+      the vanilla pumpjack has these and they are played when the entity info panel is opened/closed.
+    - Fixed all three BOP pumpjack variants missing damaged_trigger_effect; without it pumpjacks
+      produce no hit-spark visual when struck by biters or explosions.
+    - Fixed all three BOP pumpjack variants missing drawing_box_vertical_extension = 1; the vanilla
+      pumpjack sets this to avoid the horsehead animation being clipped by the drawing box at the top.
+    - Fixed Fracking Station runtime crash: the injection rate used pump.mining_speed, but a
+      LuaEntity (mining drill) has no mining_speed member, which crashed the per-second tick with
+      "attempt to perform arithmetic on a nil value" the moment a paired pumpjack was working —
+      meaning the core fracking feature never actually ran. Now reads pump.prototype.mining_speed
+      (the base speed) and multiplies by (1 + pump.speed_bonus) for the effective module/beacon-
+      boosted speed, which is what the feature was always documented to do.
+    - Fixed potential nil-arithmetic crash when loading a save written by an intermediate 0.2.0
+      development build: Fracking Station storage entries created before initial_amount/at_cap
+      were added would crash the cap calculation on the first tick. These fields are now
+      backfilled from the patch on first tick if missing (mirrors the EOR migration guard).
+    - Updated README.md to match the mod's actual behaviour: Mk2 energy 420 kW, Eco depletes ten
+      times slower, fracking cap 150%, space synthesis yields 300 crude, Space Oil Synthesis no
+      longer lists metallurgic science, and the recipe is named "Space Hydrocarbon Synthesis".
+    - Fracking Station now boosts the exact crude-oil patch its paired pumpjack is mining
+      (via the drill's mining_target) rather than the geometrically nearest patch. On
+      multi-patch fields this prevented the station from boosting a deposit the pumpjack
+      was not actually draining. Falls back to the nearest patch if the drill has no active
+      target yet (just placed / paused).
+    - Recovery/yield amounts below 1000 units now display the raw value (e.g. "350") instead
+      of rounding to "0k", so small or near-empty patches read correctly in the status panel.
+  Visual:
+    - Fracking Station and EOR Injector now have multi-layer icons combining the machine
+      base, an oil/injection overlay, and a fluid indicator for instant visual identification.
+    - Fracking Station glows red when active (animated fire glow + ambient light overlay).
+    - EOR Injector glows blue when active (directional + ambient light overlay).
+    - Both machines use thematically appropriate working sounds: Fracking Station uses a
+      boiler/steam sound; EOR Injector uses chemical plant sounds.
+    - Both machines use fluid open/close sounds when the GUI is opened.
+    - Both machines now appear in the correct tint colour on the map view.
+    - Fracking Station now shows a custom status in the entity info panel:
+      green "Field saturated — yield at 150%" when the cap is reached,
+      yellow "Boosting field yield" while actively injecting.
 ---------------------------------------------------------------------------------------------------
 Version: 0.1.7
 Date: 27.05.2026
