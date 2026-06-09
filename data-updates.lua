@@ -24,8 +24,8 @@ if mods["space-age"] then
 
     -- MK3: top-tier industrial pumpjack — requires rocket launch + Vulcanus (heavy industry planet).
     -- Mirrors SA's treatment of other high-tier industrial technologies (artillery, speed-module-3, etc.).
-    data.raw.technology["advanced-pumpjacks-mk2"].prerequisites = { "advanced-pumpjacks", "space-science-pack" }
-    data.raw.technology["advanced-pumpjacks-mk2"].unit = {
+    data.raw.technology["better-pumpjack-mk2"].prerequisites = { "better-pumpjack", "space-science-pack" }
+    data.raw.technology["better-pumpjack-mk2"].unit = {
         count = 300,
         ingredients = {
             { "automation-science-pack",  1 },
@@ -38,8 +38,8 @@ if mods["space-age"] then
 
     -- Eco: sustainable low-depletion pumpjack — requires rocket launch + Gleba (nature/biology planet).
     -- Thematically: Gleba's ecosystem focus aligns with the eco-efficiency concept.
-    data.raw.technology["eco-pumpjacks"].prerequisites = { "advanced-oil-processing", "electric-engine", "space-science-pack", "agricultural-science-pack" }
-    data.raw.technology["eco-pumpjacks"].unit = {
+    data.raw.technology["better-pumpjack-eco"].prerequisites = { "advanced-oil-processing", "electric-engine", "space-science-pack", "agricultural-science-pack" }
+    data.raw.technology["better-pumpjack-eco"].unit = {
         count = 500,
         ingredients = {
             { "automation-science-pack",    1 },
@@ -173,8 +173,8 @@ if mods["Krastorio2"] then
 end
 
 if mods["space-exploration"] then
-    data.raw.technology["advanced-pumpjacks-mk2"].prerequisites = { "advanced-pumpjacks", "se-rocket-science-pack" }
-    data.raw.technology["advanced-pumpjacks-mk2"].unit = {
+    data.raw.technology["better-pumpjack-mk2"].prerequisites = { "better-pumpjack", "se-rocket-science-pack" }
+    data.raw.technology["better-pumpjack-mk2"].unit = {
         count = 500,
         ingredients = {
             { "automation-science-pack",  1 },
@@ -186,8 +186,8 @@ if mods["space-exploration"] then
         time = 45
     }
 
-    data.raw.technology["eco-pumpjacks"].prerequisites = { "advanced-oil-processing", "electric-engine", "se-rocket-science-pack" }
-    data.raw.technology["eco-pumpjacks"].unit = {
+    data.raw.technology["better-pumpjack-eco"].prerequisites = { "advanced-oil-processing", "electric-engine", "se-rocket-science-pack" }
+    data.raw.technology["better-pumpjack-eco"].unit = {
         count = 500,
         ingredients = {
             { "automation-science-pack",  1 },

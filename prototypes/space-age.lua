@@ -85,7 +85,7 @@ data:extend({
         name = "bop-space-oil-synthesis",
         icon = "__space-age__/graphics/technology/space-platform.png",
         icon_size = 256,
-        prerequisites = { "advanced-pumpjacks", "space-science-pack" },
+        prerequisites = { "better-pumpjack", "space-science-pack" },
         effects = {
             { type = "unlock-recipe", recipe = "bop-space-synthesis"      },
             { type = "unlock-recipe", recipe = "bop-crude-from-synthetic" },

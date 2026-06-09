@@ -29,13 +29,14 @@ Date: 01.06.2026
     - Upgrade planner now chains: Pumpjack → Better Pumpjack → Better Pumpjack Mk2.
     - Added tips-and-tricks entries for Fracking Station and EOR Injector.
   Changes:
-    - Renamed the pumpjack prototypes so the internal names match the in-game tiers. The
-      tier-1 machine is now "better-pumpjack" (was "better-pumpjack-mk2"), the tier-2 machine
-      is now "better-pumpjack-mk2" (was "better-pumpjack-mk3"), and the tier-2 technology is
-      now "advanced-pumpjacks-mk2" (was "advanced-pumpjacks-mk3"). The lineup is Better
-      Pumpjack, Better Pumpjack Mk2, and Eco-Friendly Pumpjack. Display names, stats, recipes,
-      and research progression are unchanged. Existing saves migrate automatically via
-      migrations/Better-Oil-Production_0.2.0.json.
+    - Renamed the pumpjack prototypes and technologies so the internal names match the
+      in-game tiers. Entities/items/recipes: "better-pumpjack-mk2" -> "better-pumpjack"
+      (tier 1) and "better-pumpjack-mk3" -> "better-pumpjack-mk2" (tier 2). Technologies:
+      "advanced-pumpjacks" -> "better-pumpjack", "advanced-pumpjacks-mk3" ->
+      "better-pumpjack-mk2", and "eco-pumpjacks" -> "better-pumpjack-eco". The lineup is
+      Better Pumpjack, Better Pumpjack Mk2, and Eco-Friendly Pumpjack. Display names, stats,
+      recipes, and research progression are unchanged. Existing 0.1.x saves migrate
+      automatically via migrations/Better-Oil-Production_0.2.0.json.
   Balancing:
     - Space Oil Synthesis: synthetic crude now yields 300 crude oil (down from 500). The chain
       is asteroid-collection limited so throughput is already constrained, but 500 made single

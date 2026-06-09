@@ -371,7 +371,7 @@ data:extend({
         name = "bop-fracking",
         icon = "__base__/graphics/technology/oil-processing.png",
         icon_size = 256,
-        prerequisites = { "advanced-oil-processing", "advanced-pumpjacks" },
+        prerequisites = { "advanced-oil-processing", "better-pumpjack" },
         effects = {
             { type = "unlock-recipe", recipe = "bop-fracking-station"  },
             { type = "unlock-recipe", recipe = "bop-fracking-process"  },
@@ -393,7 +393,7 @@ data:extend({
         name = "bop-eor",
         icon = "__base__/graphics/technology/fluid-handling.png",
         icon_size = 256,
-        prerequisites = { "advanced-pumpjacks-mk2", "bop-fracking" },
+        prerequisites = { "better-pumpjack-mk2", "bop-fracking" },
         effects = {
             { type = "unlock-recipe", recipe = "bop-eor-injector"        },
             { type = "unlock-recipe", recipe = "bop-eor-process"         },

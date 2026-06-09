@@ -12,6 +12,8 @@
     "better-pumpjack-mk3": "better-pumpjack-mk2"
   },
   "technology": {
-    "advanced-pumpjacks-mk3": "advanced-pumpjacks-mk2"
+    "advanced-pumpjacks": "better-pumpjack",
+    "advanced-pumpjacks-mk3": "better-pumpjack-mk2",
+    "eco-pumpjacks": "better-pumpjack-eco"
   }
 }
